@@ -1,7 +1,10 @@
-/*footer {*/
-/*    position: fixed;*/
-/*    bottom: 0;*/
-/*}*/
+html{
+    /*padding-bottom: >= footer height;*/
+}
+
+.footer-container {
+    bottom: 0;
+}
 
 .gradient-custom-3 {
 /* fallback for old browsers */
