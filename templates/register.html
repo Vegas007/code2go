@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+asd
+{% block head %}
+	<title>Sign Up</title>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<form class="col s12" action="{{ url_for('register') }}" method="post">
+			<p></p>
+			<div class="row">
+				<div class="input-field col s6">
+					<input placeholder="Placeholder" id="full_name" type="text" class="validate" name="full_name">
+					<label for="full_name">Full Name</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s6">
+					<div class="input-field inline">
+						<input id="email" name="email" type="text" class="validate">
+						<label for="email">Email</label>
+						<span class="helper-text" data-error="wrong" data-success="right"></span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s6">
+					<input id="password" name="password" type="text" class="validate">
+					<label for="password">Password</label>
+				</div>
+			</div>
+
+			<p>
+				<label>
+					<input class="with-gap" name="checkbox" value={{ content.STUDENT }} type="radio" checked/>
+					<span>Student</span>
+				</label>
+				<label>
+					<input class="with-gap" name="checkbox" value={{ content.INSTRUCTOR }} type="radio"/>
+					<span>Instructor</span>
+				</label>
+			</p>
+
+			<input class="btn waves-effect waves-light" type="submit" name="action">
+
+			<p>Already have an account? <a href={{ url_for('login') }}><b>Log in</b></a></p>
+		</form>
+	</div>
+{% endblock %}
