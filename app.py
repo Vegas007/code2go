@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, url_for, request, redirect, render_template
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -54,7 +54,13 @@ class User(db.Model, UserMixin):
     auth_grade = db.Column(db.Integer, nullable=False, default=AuthGrade.STUDENT)
 
     def __repr__(self):
-        return f'<User: {self.email}>'
+        return f'''
+            full_name: {self.full_name}
+            password: {self.password}
+            email: {self.email}
+            date_joined: {self.date_joined}
+            auth_grade: {self.auth_grade}
+        '''
 
 
 @login_manager.user_loader
@@ -92,14 +98,27 @@ class LoginForm(FlaskForm):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('dashboard'))
-    return render_template('login.html', form=form)
+    print(request.values)
+
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email, password=password).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            print(f"Login succeded!\n{user}")
+            login_user(user)
+            return redirect(url_for('dashboard'))
+        else:
+            print("Login failed!")
+
+    # form = LoginForm()
+    # if form.validate_on_submit():
+    #     user = User.query.filter_by(email=form.email.data).first()
+    #     if user:
+    #         if bcrypt.check_password_hash(user.password, form.password.data):
+    #             login_user(user)
+    #             return redirect(url_for('dashboard'))
+    return render_template('login.html')
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -117,23 +136,24 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    print_error(request.values)
+    print(request.values)
 
     if request.method == 'POST':
         full_name = request.form['full_name']
-        password = request.form['password']
+        password = bcrypt.generate_password_hash(request.form['password'])
         email = request.form['email']
-        auth_grade = int(request.form['checkbox'])
+        auth_grade = int(request.form['checkbox_auth'])
 
         user = User(full_name=full_name, password=password, email=email, auth_grade=auth_grade)
         try:
             db.session.add(user)
             db.session.commit()
-            return redirect('/')
+            return redirect(url_for('login'))
         except BaseException as f:
             return f'There was an issue with registration. {f}'
 
     return render_template('register.html', content={i.name: i.value for i in AuthGrade})
+
 
 @app.route('/')
 def home():
