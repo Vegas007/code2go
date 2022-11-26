@@ -1,101 +1,100 @@
 {% extends 'base.html' %}
 asd
 {% block head %}
-	<title>Sign Up</title>
+<title>Sign Up</title>
 {% endblock %}
-
 {% block content %}
-	<section class="vh-100 bg-image"
-  style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
-  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card" style="border-radius: 15px;">
-            <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-5">Create an account</h2>
-
-              <form action="{{ url_for('register') }}" method="post">
-
-                <div class="form-outline mb-4">
-                  <input type="text" id="full_name" class="form-control form-control-lg" />
-                  <label class="form-label" for="full_name">Your Name</label>
-                </div>
-
-                <div class="form-outline mb-4">
-                  <input type="email" id="email" class="form-control form-control-lg" />
-                  <label class="form-label" for="email">Your Email</label>
-                </div>
-
-                <div class="form-outline mb-4">
-                  <input type="password" id="password" class="form-control form-control-lg" />
-                  <label class="form-label" for="password">Password</label>
-                </div>
-
-                <div class="form-check d-flex justify-content-center mb-5">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-                  <label class="form-check-label" for="form2Example3g">
-                    I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-                  </label>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                  <button type="button"
-                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
-                </div>
-
-                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
-                    class="fw-bold text-body"><u>Login here</u></a></p>
-
-              </form>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-	<div class="row">
-		<form class="col s12" action="{{ url_for('register') }}" method="post">
-			<p></p>
-			<div class="row">
-				<div class="input-field col s6">
-					<input placeholder="Placeholder" id="full_name" type="text" class="validate" name="full_name">
-					<label for="full_name">Full Name</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s6">
-					<div class="input-field inline">
-						<input id="email" name="email" type="text" class="validate">
-						<label for="email">Email</label>
-						<span class="helper-text" data-error="wrong" data-success="right"></span>
+<section class="vh-100 bg-image"
+	style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+	<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+		<div class="container h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-9 col-lg-7 col-xl-6">
+					<div class="card" style="border-radius: 15px;">
+						<div class="card-body p-5">
+							<h2 class="text-uppercase text-center mb-5">Create an account</h2>
+							<form action="{{ url_for('register') }}" method="post">
+								<div class="form-outline mb-4">
+									<input type="text" id="full_name" class="form-control form-control-lg"/>
+									<label class="form-label" for="full_name">Your Name</label>
+								</div>
+								<div class="form-outline mb-4">
+									<input type="email" id="email" class="form-control form-control-lg"/>
+									<label class="form-label" for="email">Your Email</label>
+								</div>
+								<div class="form-outline mb-4">
+									<input type="password" id="password" class="form-control form-control-lg"/>
+									<label class="form-label" for="password">Password</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value={{ content.STUDENT }} checked>
+									<label class="form-check-label" for="inlineRadio1">1</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value={{ content.INSTRUCTOR }}>
+									<label class="form-check-label" for="inlineRadio2">2</label>
+								</div>
+								<div class="form-check d-flex justify-content-center mb-5">
+									<input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg"/>
+									<label class="form-check-label" for="form2Example3g">
+									I agree all statements in <a href="#!" class="text-body"><u>Terms of
+									service</u></a>
+									</label>
+								</div>
+								<div class="d-flex justify-content-center">
+									<button type="button"
+										class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+									Register
+									</button>
+								</div>
+								<p class="text-center text-muted mt-5 mb-0">Have already an account? <a
+									class="fw-bold text-body" href={{ url_for('login') }}><u>Login
+									here</u></a>
+								</p>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="input-field col s6">
-					<input id="password" name="password" type="text" class="validate">
-					<label for="password">Password</label>
-				</div>
-			</div>
-
-			<p>
-				<label>
-					<input class="with-gap" name="checkbox" value={{ content.STUDENT }} type="radio" checked/>
-					<span>Student</span>
-				</label>
-				<label>
-					<input class="with-gap" name="checkbox" value={{ content.INSTRUCTOR }} type="radio"/>
-					<span>Instructor</span>
-				</label>
-			</p>
-
-			<input class="btn waves-effect waves-light" type="submit" name="action">
-
-			<p>Already have an account? <a href={{ url_for('login') }}><b>Log in</b></a></p>
-		</form>
+		</div>
 	</div>
+</section>
+{#<div class="row">#}
+{#	<form class="col s12" action="{{ url_for('register') }}" method="post">#}
+{#		<p></p>#}
+{#		<div class="row">#}
+{#			<div class="input-field col s6">#}
+{#				<input placeholder="Placeholder" id="full_name" type="text" class="validate" name="full_name">#}
+{#				<label for="full_name">Full Name</label>#}
+{#			</div>#}
+{#		</div>#}
+{#		<div class="row">#}
+{#			<div class="col s6">#}
+{#				<div class="input-field inline">#}
+{#					<input id="email" name="email" type="text" class="validate">#}
+{#					<label for="email">Email</label>#}
+{#					<span class="helper-text" data-error="wrong" data-success="right"></span>#}
+{#				</div>#}
+{#			</div>#}
+{#		</div>#}
+{#		<div class="row">#}
+{#			<div class="input-field col s6">#}
+{#				<input id="password" name="password" type="text" class="validate">#}
+{#				<label for="password">Password</label>#}
+{#			</div>#}
+{#		</div>#}
+{#		<p>#}
+{#			<label>#}
+{#			<input class="with-gap" name="checkbox" value={{ content.STUDENT }} type="radio" checked/>#}
+{#			<span>Student</span>#}
+{#			</label>#}
+{#			<label>#}
+{#			<input class="with-gap" name="checkbox" value={{ content.INSTRUCTOR }} type="radio"/>#}
+{#			<span>Instructor</span>#}
+{#			</label>#}
+{#		</p>#}
+{#		<input class="btn waves-effect waves-light" type="submit" name="action">#}
+{#		<p>Already have an account? <a href={{ url_for('login') }}><b>Log in</b></a></p>#}
+{#	</form>#}
+{#</div>#}
 {% endblock %}
