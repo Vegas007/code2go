@@ -9,6 +9,9 @@ DEBUG = True
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+
+app.jinja_env.auto_reload = True
 
 db = SQLAlchemy(app)
 db.init_app(app)
