@@ -47,9 +47,9 @@ db.init_app(app)
 # table instructor
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    full_name = db.Column(db.String(50))
-    password = db.Column(db.String(32))
-    email = db.Column(db.String(100), nullable=False)
+    full_name = db.Column(db.String(64), nullable=False)
+    password = db.Column(db.String(256), nullable=False)
+    email = db.Column(db.String(128), nullable=False)
     date_joined = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     auth_grade = db.Column(db.Integer, nullable=False, default=AuthGrade.STUDENT)
 
@@ -103,7 +103,7 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(email=email, password=password).first()
+        user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
             print(f"Login succeded!\n{user}")
             login_user(user)
@@ -140,7 +140,7 @@ def register():
 
     if request.method == 'POST':
         full_name = request.form['full_name']
-        password = bcrypt.generate_password_hash(request.form['password'])
+        password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
         email = request.form['email']
         auth_grade = int(request.form['checkbox_auth'])
 
