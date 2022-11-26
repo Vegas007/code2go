@@ -67,33 +67,17 @@ class User(db.Model, UserMixin):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def is_logged():
+    return current_user and current_user.is_authenticated
 
-# Register Form Class
-class RegisterForm(FlaskForm):
-    username = StringField(validators=[
-        InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-
-    password = PasswordField(validators=[
-        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
-
-    submit = SubmitField('Register')
-
-    def validate_username(self, username):
-        existing_user_username = User.query.filter_by(
-            username=username.data).first()
-        if existing_user_username:
-            raise ValidationError(
-                'That username already exists. Please choose a different one.')
-
-
-class LoginForm(FlaskForm):
-    email = StringField(validators=[
-        InputRequired(), Length(min=8, max=30)])
-
-    password = PasswordField(validators=[
-        InputRequired(), Length(min=4, max=32)], render_kw={"placeholder": "Password"})
-
-    submit = SubmitField('Login')
+def validate_email(email):
+    """
+    :param username: string
+    """
+    existing_user_username = User.query.filter_by(email=email).first()
+    if existing_user_username:
+        return False
+    return True
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -106,25 +90,13 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
             print(f"Login succeded!\n{user}")
+            # user.authenticated = True
             login_user(user)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('home'))
         else:
             print("Login failed!")
 
-    # form = LoginForm()
-    # if form.validate_on_submit():
-    #     user = User.query.filter_by(email=form.email.data).first()
-    #     if user:
-    #         if bcrypt.check_password_hash(user.password, form.password.data):
-    #             login_user(user)
-    #             return redirect(url_for('dashboard'))
     return render_template('login.html')
-
-
-@app.route('/dashboard', methods=['GET', 'POST'])
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -138,11 +110,20 @@ def logout():
 def register():
     print(request.values)
 
+    content = {
+        'auth_grade': {i.name: i.value for i in AuthGrade},
+        'output_message': '',
+    }
+
     if request.method == 'POST':
         full_name = request.form['full_name']
         password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
         email = request.form['email']
         auth_grade = int(request.form['checkbox_auth'])
+
+        if not validate_email(email):
+            content['output_message'] = 'This email already exists. Please choose a different one.'
+            return render_template('register.html', content=content)
 
         user = User(full_name=full_name, password=password, email=email, auth_grade=auth_grade)
         try:
@@ -150,14 +131,18 @@ def register():
             db.session.commit()
             return redirect(url_for('login'))
         except BaseException as f:
-            return f'There was an issue with registration. {f}'
+            content['output_message'] = f'There was an issue with registration. {f}'
+            return render_template('register.html', content=content)
 
-    return render_template('register.html', content={i.name: i.value for i in AuthGrade})
+    return render_template('register.html', content=content)
 
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    if is_logged():
+        return render_template('dashboard.html')
+    else:
+        return render_template('index.html')
 
 
 if __name__ == '__main__':
