@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../static/index.css">
 {% extends 'base.html' %}
 
 {% block head %}
@@ -5,6 +6,49 @@
 {% endblock %}
 
 {% block content %}
+	<div class="container">
+		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+			<ul class="list-unstyled ps-0">
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+						Languages
+					</button>
+					<div class="collapse" id="home-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark rounded">Python</a></li>
+							<li><a href="#" class="link-dark rounded">JavaScript</a></li>
+							<li><a href="#" class="link-dark rounded">C++</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+						Subjects
+					</button>
+					<div class="collapse" id="dashboard-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark rounded">Web Development</a></li>
+							<li><a href="#" class="link-dark rounded">Data Science</a></li>
+							<li><a href="#" class="link-dark rounded">Cybersecurity</a></li>
+							<li><a href="#" class="link-dark rounded">Machine Learning</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="content">
+			<p>Explore more </p>
+			<p>Popular languages</p>
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">Javascript</h5>
+					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, veritatis?</p>
+					<a href="#" class="card-link">Learn more...</a>
+				</div>
+			</div>
+			<p>Popular subjects</p>
+		</div>
+	</div>
 
 
 {% endblock %}
