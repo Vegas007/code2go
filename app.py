@@ -1,3 +1,4 @@
+import sqlalchemy
 from flask import Flask, url_for, request, redirect, render_template
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
@@ -14,9 +15,10 @@ from flask_bcrypt import Bcrypt
 
 # Auth Grade Enum
 class AuthGrade(Enum):
-    STUDENT = 0
-    INSTRUCTOR = 1
-    ADMIN = 2
+    NONE = 0
+    STUDENT = 1
+    INSTRUCTOR = 2
+    ADMIN = 3
 
 
 # Debug mode
@@ -28,7 +30,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = 'thisisasecretkey'
-
 app.jinja_env.auto_reload = True
 
 # Login manager
@@ -36,15 +37,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# Crypt configuration
+# Crypt initialization
 bcrypt = Bcrypt(app)
 
-# Db initialization
+# Database initialization
 db = SQLAlchemy(app)
 db.init_app(app)
 
 
-# table instructor
+##################################
+# Database schema
+##################################
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(64), nullable=False)
@@ -55,6 +58,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'''
+            id: {self.id}
             full_name: {self.full_name}
             password: {self.password}
             email: {self.email}
@@ -63,12 +67,60 @@ class User(db.Model, UserMixin):
         '''
 
 
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    instructor_id = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.String(64), nullable=False)
+    description = db.Column(db.String(512), nullable=False)
+    video_url = db.Column(db.String(128), nullable=False)
+    category = db.Column(db.String(32), nullable=False)
+    sub_category = db.Column(db.String(32), nullable=False)
+    last_updated = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+    price = db.Column(db.Float, nullable=False, default=0.0)
+
+    def __repr__(self):
+        return f'''
+            id: {self.id}
+            instructor_id: {self.instructor_id}
+            title: {self.title}
+            description: {self.description}
+            video_url: {self.video_url}
+            category: {self.category}
+            sub_category: {self.sub_category}
+            last_updated: {self.last_updated}
+            price: {self.price}
+        '''
+
+
+##################################
+# General functions
+##################################
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    :param user_id: int
+    :return: int
+    """
     return User.query.get(int(user_id))
 
+
 def is_logged():
+    """
+    :return: bool
+    """
     return current_user and current_user.is_authenticated
+
+
+def get_auth_grade(email):
+    """
+    :rtype: int
+    :param email: string
+    """
+    user = User.query.filter_by(email=email).first()
+    if user:
+        return user.auth_grade
+    return 0
+
 
 def validate_email(email):
     """
@@ -80,6 +132,28 @@ def validate_email(email):
     return True
 
 
+def get_courses_by_id(id):
+    """
+    :param id: int
+    :return: List[Dict]
+    """
+    if user:
+        courses = Course.query.filter_by(instructor_id=id).all()
+        return courses
+    return None
+
+
+def get_all_courses():
+    """
+    :return: List[Dict]
+    """
+    courses = Course.query.all()
+    return courses
+
+
+##################################
+# Routes
+##################################
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     print(request.values)
@@ -140,7 +214,12 @@ def register():
 @app.route('/')
 def home():
     if is_logged():
-        return render_template('dashboard.html')
+        # TODO: Send my own courses
+        # params = {
+        #     'all_courses': get_all_courses(),
+        #     'own_courses': get_courses_by_id(current_user.id),
+        # }
+        return render_template('dashboard.html', courses=get_all_courses())
     else:
         return render_template('index.html')
 

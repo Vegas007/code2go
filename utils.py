@@ -1,8 +1,8 @@
-import app
+from app import *
 
 
 def print_error(*args):
-    if not app.DEBUG:
+    if not DEBUG:
         return
 
     for arg in args:

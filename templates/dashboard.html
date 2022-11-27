@@ -6,9 +6,29 @@
 
 {% block content %}
 	<body>
-	{% if current_user.is_authenticated %}
-		<h1>Hello you are logged in.</h1>
-		<a href="{{ url_for('logout') }}">Press here to logout</a>
-	{% endif %}
+
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+
+		{% for course in courses %}
+			<div class="col">
+				<div class="card h-100">
+					<img src="..." class="card-img-top" alt="">
+					<div class="card-body">
+						<h5 class="card-title">{{ course.title }}</h5>
+						<p class="card-text">{{ course.description }}</p>
+					</div>
+					<div class="card-footer">
+						<div class="row">
+							<div class="col-sm-6">Last updated {{ course.last_updated }}</div>
+							<div class="col-sm-6 text-end">Price: <b>{{ course.price }}€</b></div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+
 	</body>
 {% endblock %}
