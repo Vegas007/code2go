@@ -1,37 +1,33 @@
-import sqlalchemy
 from flask import Flask, flash, url_for, request, redirect, render_template
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from enum import Enum
-from utils import *
-import re
-
+from flask_ckeditor import CKEditor
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
+from flask_ckeditor import CKEditorField
 from flask_bcrypt import Bcrypt
+from flask import send_from_directory
+
+from wtforms import StringField, SubmitField
 
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
+from datetime import datetime
+from enum import Enum, auto
+from utils import *
+
+import sqlalchemy
+import re
 import os
-from flask import send_from_directory
-
 import typing
-
-from flask_ckeditor import CKEditor
-from flask_wtf import FlaskForm
-from flask_ckeditor import CKEditorField
-from wtforms import StringField, SubmitField
 
 
 # Auth Grade Enum
 class AuthGrade(Enum):
-    NONE = 0
-    STUDENT = 1
-    INSTRUCTOR = 2
-    ADMIN = 3
+    NONE = auto()
+    STUDENT = auto()
+    INSTRUCTOR = auto()
+    ADMIN = auto()
 
 
 # Debug mode
