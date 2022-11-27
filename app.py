@@ -180,6 +180,12 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    return render_template('create.html')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     print(request.values)

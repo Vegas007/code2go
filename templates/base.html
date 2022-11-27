@@ -37,6 +37,13 @@
 					<li class="nav-item">
 						<a class="nav-link active" href="{{ url_for('logout') }}">Log out</a>
 					</li>
+
+					{% if current_user.auth_grade == 2 %}
+						<li class="nav-item">
+							<a class="nav-link active" href="{{ url_for('create') }}">Create your course</a>
+						</li>
+					{% endif %}
+
 				{% endif %}
 
 			</ul>
