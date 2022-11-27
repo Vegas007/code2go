@@ -20,6 +20,11 @@ from flask import send_from_directory
 
 import typing
 
+from flask_ckeditor import CKEditor
+from flask_wtf import FlaskForm
+from flask_ckeditor import CKEditorField
+from wtforms import StringField, SubmitField
+
 
 # Auth Grade Enum
 class AuthGrade(Enum):
@@ -59,6 +64,18 @@ bcrypt = Bcrypt(app)
 # Database initialization
 db = SQLAlchemy(app)
 db.init_app(app)
+
+# Text editor
+ckeditor = CKEditor(app)
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title')
+    body = CKEditorField('Body')
+    submit = SubmitField('Submit')
+
+
+# ckeditor.init_app(app)
 
 
 ##################################
@@ -194,27 +211,51 @@ def create():
     """
     :return: template
     """
+
+    form = PostForm()
+
     if request.method == 'POST':
-        if 'file' not in request.files:
+        print(request.values, request.files)
+        if 'video' not in request.files or 'thumbnail' not in request.files:
             print('No file part')
             return redirect(request.url)
 
-        file = request.files['file']
-        if not file.filename:
-            print('No image selected for uploading')
-            return redirect(request.url)
-        else:
-            file_name = secure_filename(file.filename)
-            file_extension = get_file_ext(file_name)
-            if file_extension not in ALLOWED_EXTENSIONS:
-                print(f'You cannot upload file {file_name}, it has an invalid extension!')
+        for key, file in request.files.items():
+            print(key, file)
+            if not file.filename:
+                print('No image selected for uploading')
                 return redirect(request.url)
+            else:
+                file_name = secure_filename(file.filename)
+                file_extension = get_file_ext(file_name)
+                if file_extension not in ALLOWED_EXTENSIONS:
+                    print(f'You cannot upload file {file_name}, it has an invalid extension!')
+                    return redirect(request.url)
 
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
 
             print(f'The file {file_name} was uploaded succesfully!')
-            return render_template('create.html', context={'file_name': file_name, 'file_extension': file_extension})
-    return render_template('create.html')
+        return render_template('create.html', context={'file_name': file_name, 'file_extension': file_extension},
+                               form=form)
+
+        # form = PostForm()
+        # if form.validate_on_submit():
+        #     poster = current_user.id
+        #     post = Posts(title=form.title.data, content=form.content.data, poster_id=poster, slug=form.slug.data)
+        #     # Clear The Form
+        #     form.title.data = ''
+        #     form.content.data = ''
+        #     # form.author.data = ''
+        #     form.slug.data = ''
+        #
+        #     # Add post data to database
+        #     db.session.add(post)
+        #     db.session.commit()
+
+        # Return a Message
+        print("Course created successfully!")
+
+    return render_template('create.html', form=form)
 
 
 @app.route("/display/<path:file_name>")

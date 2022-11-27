@@ -6,37 +6,63 @@
 
 {% block content %}
 
-{#	Create rich learning experiences with the help of video lectures, quizzes, coding exercises, etc. #}
+	<section class="vh-100 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+		<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+			<div class="container h-100">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-12 col-md-9 col-lg-7 col-xl-6">
+						<div class="card" style="border-radius: 15px;">
+							<div class="card-body p-5">
+								<h2 class="text-uppercase text-center mb-5">Create a course</h2>
+								<form action="{{ url_for('create') }}" method="post" enctype="multipart/form-data">
+									<div class="form-outline mb-4">
+										<b>How about a working title?</b>
+										<input type="text" name="title" placeholder="Title" class="form-control form-control-lg" required/>
+									</div>
+									<b>Course content</b>
+									{{ form.body() }}
 
-{#
-How about a working title?
-It's ok if you can't think of a good title now. You can change it later.
+									{{ ckeditor.load() }}
+									{{ ckeditor.config(name='body') }}
 
-placeholder: Learn Photoshop cs6 from scratch
+									<br/>
+									{% if context %}
+										{% if context.file_extension == 'mp4' %}
+											<div style="margin: 10px auto;">
+												<video autoplay="autoplay" controls="controls" preload="preload">
+													<source src="{{ url_for('display_attachment', file_name=context.file_name) }}" type="video/mp4"></source>
+												</video>
+											</div>
+										{% else %}
+											<img src="{{ url_for('display_attachment', file_name=context.file_name) }}"/>
+										{% endif %}
+									{% endif %}
 
-choose category
+									<div>
+										<b>Upload video</b>
+										<dl>
+											<input type="file" name="video" autocomplete="off" required>
+										</dl>
 
-#}
-	{% if context %}
-		{% if context.file_extension == 'mp4' %}
-			<div style="margin: 10px auto;">
-				<video autoplay="autoplay" controls="controls" preload="preload">
-					<source src="{{ url_for('display_attachment', file_name=context.file_name) }}" type="video/mp4"></source>
-				</video>
+										<b>Upload thumbnail</b>
+										<dl>
+											<input type="file" name="thumbnail" autocomplete="off" required>
+										</dl>
+									</div>
+
+									<div class="d-flex justify-content-center">
+										<button type="submit"
+												class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+											Create
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		{% else %}
-			<img src="{{ url_for('display_attachment', file_name=context.file_name) }}"/>
-		{% endif %}
-	{% endif %}
-	<form method="post" action="{{ url_for('create') }}" enctype="multipart/form-data">
-		<dl>
-			<p>
-				<input type="file" name="file" autocomplete="off" required>
-			</p>
-		</dl>
-		<p>
-			<input type="submit" value="Upload">
-		</p>
-	</form>
+		</div>
+	</section>
 
 {% endblock %}
