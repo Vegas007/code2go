@@ -101,7 +101,8 @@ class Course(db.Model):
     instructor_id = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String(64), nullable=False)
     description = db.Column(db.String(512), nullable=False)
-    video_url = db.Column(db.String(128), nullable=False)
+    video_path = db.Column(db.String(128), nullable=False)
+    thumbnail_path = db.Column(db.String(128), nullable=False)
     category = db.Column(db.String(32), nullable=False)
     sub_category = db.Column(db.String(32), nullable=False)
     last_updated = db.Column(db.Date, nullable=False, default=datetime.utcnow)
@@ -113,7 +114,8 @@ class Course(db.Model):
             instructor_id: {self.instructor_id}
             title: {self.title}
             description: {self.description}
-            video_url: {self.video_url}
+            video_path: {self.video_path}
+            thumbnail_path: {self.thumbnail_path}
             category: {self.category}
             sub_category: {self.sub_category}
             last_updated: {self.last_updated}
@@ -231,6 +233,19 @@ def create():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
 
             print(f'The file {file_name} was uploaded succesfully!')
+
+        course = Course(instructor_id=current_user.id,
+                        title=request.values['title'],
+                        description=form.body.data,
+                        video_path=request.files['video'].filename,
+                        thumbnail_path=request.files['thumbnail'].filename,
+                        category='web',
+                        sub_category='python',
+                        price=100
+                    )
+        db.session.add(course)
+        db.session.commit()
+
         return render_template('create.html', context={'file_name': file_name, 'file_extension': file_extension},
                                form=form)
 

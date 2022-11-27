@@ -13,10 +13,10 @@
 		{% for course in courses %}
 			<div class="col">
 				<div class="card h-100">
-					<img class="card-img-top" alt="Not found" src={{url_for('static', filename='')}}  >
+					<img class="card-img-top" alt="Not found" src={{url_for('display_attachment', file_name=course.thumbnail_path)}}  >
 					<div class="card-body">
 						<h5 class="card-title">{{ course.title }}</h5>
-						<p class="card-text">{{ course.description }}</p>
+						<p class="card-text">{{ course.description | safe }}</p>
 					</div>
 					<div class="card-footer">
 						<div class="row">
