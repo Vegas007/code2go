@@ -2,21 +2,22 @@
 
 {% block head %}
 	<title>Create your course</title>
+	<link rel="stylesheet" href="../static/login.css">
 {% endblock %}
 
 {% block content %}
 
-	<section class="vh-100 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
-		<div class="mask d-flex align-items-center h-100 gradient-custom-3">
-			<div class="container h-100">
-				<div class="row d-flex justify-content-center align-items-center h-100">
-					<div class="col-12 col-md-9 col-lg-7 col-xl-6">
-						<div class="card" style="border-radius: 15px;">
+	<section class="bg-image">
+		<div class="mask d-flex align-items-center gradient-custom-3">
+			<div class="container">
+				<div class="row d-flex justify-content-center align-items-center h-90">
+					<div class="col-12 col-lg-7 col-xl-6">
+						<div class="card pad-card">
 							<div class="card-body p-5">
 								<h2 class="text-uppercase text-center mb-5">Create a course</h2>
 								<form action="{{ url_for('create') }}" method="post" enctype="multipart/form-data">
 									<div class="form-outline mb-4">
-										<b>How about a working title?</b>
+										<label><b>How about a working title?</b></label>
 										<input type="text" name="title" placeholder="Title" class="form-control form-control-lg" required/>
 									</div>
 									<b>Course content</b>
@@ -39,13 +40,14 @@
 									{% endif %}
 
 									<div>
-										<b>Upload video</b>
+
 										<dl>
+											<label><b>Upload video</b></label>
 											<input type="file" name="video" autocomplete="off" required>
 										</dl>
 
-										<b>Upload thumbnail</b>
 										<dl>
+											<label><b>Upload thumbnail</b></label>
 											<input type="file" name="thumbnail" autocomplete="off" required>
 										</dl>
 									</div>
