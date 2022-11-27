@@ -152,9 +152,10 @@ cython_debug/
 #.idea/
 
 # Environment
-.Scripts/
-./Include/
-./Lib/
-.idea/dataSources.xml
+Scripts/
+Include/
+Lib/
+idea/dataSources.xml
 
-.uploads/
+# Upload files
+uploads/
