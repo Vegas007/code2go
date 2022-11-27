@@ -17,4 +17,26 @@ placeholder: Learn Photoshop cs6 from scratch
 choose category
 
 #}
+	{% if context %}
+		{% if context.file_extension == 'mp4' %}
+			<div style="margin: 10px auto;">
+				<video autoplay="autoplay" controls="controls" preload="preload">
+					<source src="{{ url_for('display_attachment', file_name=context.file_name) }}" type="video/mp4"></source>
+				</video>
+			</div>
+		{% else %}
+			<img src="{{ url_for('display_attachment', file_name=context.file_name) }}"/>
+		{% endif %}
+	{% endif %}
+	<form method="post" action="{{ url_for('create') }}" enctype="multipart/form-data">
+		<dl>
+			<p>
+				<input type="file" name="file" autocomplete="off" required>
+			</p>
+		</dl>
+		<p>
+			<input type="submit" value="Upload">
+		</p>
+	</form>
+
 {% endblock %}

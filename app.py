@@ -1,5 +1,5 @@
 import sqlalchemy
-from flask import Flask, url_for, request, redirect, render_template
+from flask import Flask, flash, url_for, request, redirect, render_template
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -11,6 +11,14 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
+
+import os
+from flask import send_from_directory
+
+import typing
 
 
 # Auth Grade Enum
@@ -24,6 +32,10 @@ class AuthGrade(Enum):
 # Debug mode
 DEBUG = True
 
+# General configuration
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'mp4', 'txt', 'png', 'jpg', 'jpeg', 'gif'}
+
 # App configuration
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
@@ -31,6 +43,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 app.jinja_env.auto_reload = True
+
+# File configuration
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Login manager
 login_manager = LoginManager()
@@ -96,25 +112,20 @@ class Course(db.Model):
 # General functions
 ##################################
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(user_id: int):
     """
-    :param user_id: int
-    :return: int
     """
     return User.query.get(int(user_id))
 
 
-def is_logged():
+def is_logged() -> bool:
     """
-    :return: bool
     """
     return current_user and current_user.is_authenticated
 
 
-def get_auth_grade(email):
+def get_auth_grade(email: str) -> int:
     """
-    :rtype: int
-    :param email: string
     """
     user = User.query.filter_by(email=email).first()
     if user:
@@ -122,9 +133,8 @@ def get_auth_grade(email):
     return 0
 
 
-def validate_email(email):
+def validate_email(email: str) -> bool:
     """
-    :param username: string
     """
     existing_user_username = User.query.filter_by(email=email).first()
     if existing_user_username:
@@ -132,7 +142,7 @@ def validate_email(email):
     return True
 
 
-def get_courses_by_id(id):
+def get_courses_by_id(id: int):
     """
     :param id: int
     :return: List[Dict]
@@ -156,8 +166,6 @@ def get_all_courses():
 ##################################
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print(request.values)
-
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -183,7 +191,39 @@ def logout():
 @app.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
+    """
+    :return: template
+    """
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            print('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+        if not file.filename:
+            print('No image selected for uploading')
+            return redirect(request.url)
+        else:
+            file_name = secure_filename(file.filename)
+            file_extension = get_file_ext(file_name)
+            if file_extension not in ALLOWED_EXTENSIONS:
+                print(f'You cannot upload file {file_name}, it has an invalid extension!')
+                return redirect(request.url)
+
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+
+            print(f'The file {file_name} was uploaded succesfully!')
+            return render_template('create.html', context={'file_name': file_name, 'file_extension': file_extension})
     return render_template('create.html')
+
+
+@app.route("/display/<path:file_name>")
+def display_attachment(file_name: str):
+    """
+    """
+    return send_from_directory(
+        app.config['UPLOAD_FOLDER'], file_name, as_attachment=True
+    )
 
 
 @app.route('/register', methods=['GET', 'POST'])
