@@ -1,0 +1,14 @@
+.bg-image{
+    background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');
+    background-size: cover;
+    /*height: 100vh;*/
+    padding:0;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.register-card {
+    margin: 10px 0 10px 0;
+}

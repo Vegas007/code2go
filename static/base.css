@@ -1,10 +1,8 @@
-html {
-    height: 100vh;
-}
-
-.footer-container footer {
-    height: 10vh;
-    bottom: 0;
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .gradient-custom-3 {
