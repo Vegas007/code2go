@@ -319,7 +319,7 @@ def home():
         # }
         return render_template('dashboard.html', courses=get_all_courses())
     else:
-        return render_template('index.html')
+        return render_template('index.html', courses=get_all_courses())
 
 
 @app.route('/contact')

@@ -2,6 +2,7 @@
 
 {% block head %}
 	<link rel="stylesheet" href="../static/index.css">
+	<link rel="stylesheet" href="../static/dashboard.css">
 	<title>Home</title>
 {% endblock %}
 
@@ -36,18 +37,46 @@
 				</li>
 			</ul>
 		</div>
-		<div class="content">
-			<p>Explore more on popular languages</p>
-			<div class="card" style="width: 18rem;">
-				<div class="card-body">
-					<h5 class="card-title">Javascript</h5>
-					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, veritatis?</p>
-					<a href="#" class="card-link">Learn more...</a>
+		{#		<div class="content">#}
+		{#			<p>Explore more on popular languages</p>#}
+		{#			<div class="card" style="width: 18rem;">#}
+		{#				<div class="card-body">#}
+		{#					<h5 class="card-title">Javascript</h5>#}
+		{#					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, veritatis?</p>#}
+		{#					<a href="#" class="card-link">Learn more...</a>#}
+		{#				</div>#}
+		{#			</div>#}
+		{#			<p>Explore more on popular languages</p>#}
+		{#		</div>#}
+
+		<div class="row row-cols-1 row-cols-md-3 g-4 card-container">
+			{% for course in courses %}
+				<div class="col">
+					<div class="card h-100">
+						<img class="card-img-top" alt="Not found" src={{ url_for('display_attachment', file_name=course.thumbnail_path) }}>
+						<div class="card-body">
+							<h5 class="card-title">{{ course.title }}</h5>
+							<p class="card-text">{{ course.description | safe }}</p>
+						</div>
+						<div class="card-footer">
+							<div class="row">
+								<div class="col-sm-6">Last updated {{ course.last_updated }}</div>
+								{% if course.price %}
+									<div class="col-sm-6 text-end">Price:
+										<b>{{ course.price }}€</b></div>
+								{% else %}
+									<div class="col-sm-6 text-end">Price:
+										<b>Free</b></div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-			<p>Explore more on popular languages</p>
+			{% endfor %}
 		</div>
 	</div>
+
+
 
 
 {% endblock %}
