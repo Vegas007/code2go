@@ -13,7 +13,7 @@
 		{% for course in courses %}
 			<div class="col">
 				<div class="card h-100">
-					<img src="courseThumbnail.jpeg" class="card-img-top" alt="Not found">
+					<img class="card-img-top" alt="Not found" src={{url_for('static', filename='')}}  >
 					<div class="card-body">
 						<h5 class="card-title">{{ course.title }}</h5>
 						<p class="card-text">{{ course.description }}</p>
@@ -23,7 +23,6 @@
 							<div class="col-sm-6">Last updated {{ course.last_updated }}</div>
 							<div class="col-sm-6 text-end">Price: <b>{{ course.price }}€</b></div>
 						</div>
-
 					</div>
 				</div>
 			</div>
