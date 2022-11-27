@@ -2,17 +2,18 @@
 
 {% block head %}
 	<title>Dashboard</title>
+	<link rel="stylesheet" href="../static/dashboard.css">
 {% endblock %}
 
 {% block content %}
 	<body>
 
-	<div class="row row-cols-1 row-cols-md-3 g-4">
+	<div class="row row-cols-1 row-cols-md-3 g-4 card-container">
 
 		{% for course in courses %}
 			<div class="col">
 				<div class="card h-100">
-					<img src="..." class="card-img-top" alt="Not found">
+					<img src="courseThumbnail.jpeg" class="card-img-top" alt="Not found">
 					<div class="card-body">
 						<h5 class="card-title">{{ course.title }}</h5>
 						<p class="card-text">{{ course.description }}</p>

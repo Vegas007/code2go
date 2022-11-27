@@ -58,10 +58,22 @@
 		<div class="col-md-4 d-flex align-items-center">
 			<span class="mb-3 mb-md-0 text-muted">&copy; 2022 Company, Inc</span>
 		</div>
+		<div class="nav-item">
+			<a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact us</a>
+		</div>
+		<div class="nav-item">
+			<a class="nav-link active" aria-current="page" href="{{ url_for('about') }}">About us</a>
+		</div>
 		<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-			<i class="bi bi-facebook"></i>
-			<i class="bi bi-instagram"></i>
-			<i class="bi bi-twitter"></i>
+			<li class="nav-item">
+				<a class="nav-link text-info" aria-current="page" href="#"><i class="bi bi-facebook"></i></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-danger" aria-current="page" href="#"><i class="bi bi-instagram"></i></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-primary" aria-current="page" href="#"><i class="bi bi-twitter"></i></a>
+			</li>
 		</ul>
 	</footer>
 </div>
