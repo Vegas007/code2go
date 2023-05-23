@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<link rel="stylesheet" href="../static/index.css">
+	<link rel="stylesheet" href="../static/dashboard.css">
+	<title>{{ course.title }}</title>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+			<ul class="list-unstyled ps-0">
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+						Languages
+					</button>
+					<div class="collapse" id="home-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark rounded">Python</a></li>
+							<li><a href="#" class="link-dark rounded">JavaScript</a></li>
+							<li><a href="#" class="link-dark rounded">C++</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+						Subjects
+					</button>
+					<div class="collapse" id="dashboard-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark rounded">Web Development</a></li>
+							<li><a href="#" class="link-dark rounded">Data Science</a></li>
+							<li><a href="#" class="link-dark rounded">Cybersecurity</a></li>
+							<li><a href="#" class="link-dark rounded">Machine Learning</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		{#		<div class="content">#}
+		{#			<p>Explore more on popular languages</p>#}
+		{#			<div class="card" style="width: 18rem;">#}
+		{#				<div class="card-body">#}
+		{#					<h5 class="card-title">Javascript</h5>#}
+		{#					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, veritatis?</p>#}
+		{#					<a href="#" class="card-link">Learn more...</a>#}
+		{#				</div>#}
+		{#			</div>#}
+		{#			<p>Explore more on popular languages</p>#}
+		{#		</div>#}
+
+		<div class="card-container">
+			<div class="col">
+				<div class="card h-100">
+					<img class="card-img-top" alt="Not found" src={{ url_for('display_attachment', file_name=course.thumbnail_path) }}>
+					<div class="card-body">
+						<h5 class="card-title">{{ course.title }}</h5>
+						<p class="card-text">{{ course.description | safe }}</p>
+					</div>
+					<div style="margin: 10px auto;">
+						<video autoplay="autoplay" controls="controls" preload="preload">
+							<source src="{{ url_for('display_attachment', file_name=course.video_path) }}" type="video/mp4"></source>
+						</video>
+					</div>
+
+					<div class="card-footer">
+						<div class="row">
+							<div class="col-sm-6">Last updated {{ course.last_updated }}</div>
+							{% if course.price %}
+								<div class="col-sm-6 text-end">Price:
+									<b>{{ course.price }}€</b></div>
+							{% else %}
+								<div class="col-sm-6 text-end">Price:
+									<b>Free</b></div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+{% endblock %}

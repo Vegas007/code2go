@@ -27,20 +27,47 @@
 									{{ ckeditor.config(name='body') }}
 
 									<br/>
-									{% if context %}
-										{% if context.file_extension == 'mp4' %}
-											<div style="margin: 10px auto;">
-												<video autoplay="autoplay" controls="controls" preload="preload">
-													<source src="{{ url_for('display_attachment', file_name=context.file_name) }}" type="video/mp4"></source>
-												</video>
-											</div>
-										{% else %}
-											<img src="{{ url_for('display_attachment', file_name=context.file_name) }}"/>
-										{% endif %}
-									{% endif %}
+{#									{% if context %}#}
+{#										{% if context.file_extension == 'mp4' %}#}
+{#											<div style="margin: 10px auto;">#}
+{#												<video autoplay="autoplay" controls="controls" preload="preload">#}
+{#													<source src="{{ url_for('display_attachment', file_name=context.file_name) }}" type="video/mp4"></source>#}
+{#												</video>#}
+{#											</div>#}
+{#										{% else %}#}
+{#											<img src="{{ url_for('display_attachment', file_name=context.file_name) }}"/>#}
+{#										{% endif %}#}
+{#									{% endif %}#}
+
+									<div class="btn-group">
+										<button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+											Category
+										</button>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#">Action</a></li>
+											<li><a class="dropdown-item" href="#">Another action</a></li>
+											<li><a class="dropdown-item" href="#">Something else here</a></li>
+										</ul>
+									</div>
+
+									<div class="btn-group">
+										<button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+											Sub category
+										</button>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#">Action</a></li>
+											<li><a class="dropdown-item" href="#">Another action</a></li>
+											<li><a class="dropdown-item" href="#">Something else here</a></li>
+										</ul>
+									</div>
+
+
+									<div class="form-outline mb-4">
+										<label><b>What's the price?</b></label>
+										<input type="text" name="price" placeholder="0" value='0' class="form-control form-control-lg" required/>
+									</div>
 
 									<div>
-
 										<dl>
 											<label><b>Upload video</b></label>
 											<input type="file" name="video" autocomplete="off" required>

@@ -24,11 +24,10 @@ import typing
 
 # Auth Grade Enum
 class AuthGrade(Enum):
-    NONE = auto()
+    NONE = 0
     STUDENT = auto()
     INSTRUCTOR = auto()
     ADMIN = auto()
-
 
 # Debug mode
 DEBUG = True
@@ -241,30 +240,15 @@ def create():
                         thumbnail_path=request.files['thumbnail'].filename,
                         category='web',
                         sub_category='python',
-                        price=100
+                        price=int(request.values['price'])
                     )
         db.session.add(course)
         db.session.commit()
 
-        return render_template('create.html', context={'file_name': file_name, 'file_extension': file_extension},
-                               form=form)
+        # return render_template('create.html', context={'file_name': file_name, 'file_extension': file_extension}, form=form)
 
-        # form = PostForm()
-        # if form.validate_on_submit():
-        #     poster = current_user.id
-        #     post = Posts(title=form.title.data, content=form.content.data, poster_id=poster, slug=form.slug.data)
-        #     # Clear The Form
-        #     form.title.data = ''
-        #     form.content.data = ''
-        #     # form.author.data = ''
-        #     form.slug.data = ''
-        #
-        #     # Add post data to database
-        #     db.session.add(post)
-        #     db.session.commit()
-
-        # Return a Message
         print("Course created successfully!")
+        return redirect(request.url)
 
     return render_template('create.html', form=form)
 
@@ -325,6 +309,11 @@ def home():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route("/course/<int:id>")
+def course(id: int):
+    course = Course.query.filter_by(id=id).first()
+    return render_template('course.html', course=course)
 
 
 @app.route('/about')
