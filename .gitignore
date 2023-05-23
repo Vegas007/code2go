@@ -157,5 +157,4 @@ Include/
 Lib/
 idea/dataSources.xml
 
-# Upload files
-uploads/
+    
