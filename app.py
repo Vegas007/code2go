@@ -161,7 +161,7 @@ def get_courses_by_id(id: int):
     :param id: int
     :return: List[Dict]
     """
-    if user:
+    if id:
         courses = Course.query.filter_by(instructor_id=id).all()
         return courses
     return None
@@ -296,15 +296,14 @@ def register():
 @app.route('/')
 def home():
     if is_logged():
-        # TODO: Send my own courses
-        # params = {
-        #     'all_courses': get_all_courses(),
-        #     'own_courses': get_courses_by_id(current_user.id),
-        # }
         return render_template('dashboard.html', courses=get_all_courses())
     else:
         return render_template('index.html', courses=get_all_courses())
 
+@app.route('/manage_courses')
+def manage_courses():
+    if is_logged():
+        return render_template('manage_courses.html', courses=get_courses_by_id(current_user.id))
 
 @app.route('/contact')
 def contact():

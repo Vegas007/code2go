@@ -40,7 +40,11 @@
 
 					{% if current_user.auth_grade == 2 %}
 						<li class="nav-item">
-							<a class="nav-link active" href="{{ url_for('create') }}">Create your course</a>
+							<a class="nav-link active" href="{{ url_for('manage_courses') }}">My courses</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link active" href="{{ url_for('create') }}">Create course</a>
 						</li>
 					{% endif %}
 
@@ -56,7 +60,7 @@
 {#<div class="footer-container">#}
 	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
 		<div class="col-md-4 d-flex align-items-center">
-			<span class="mb-3 mb-md-0 text-muted">&copy; 2022 Company, Inc</span>
+			<span class="mb-3 mb-md-0 text-muted">&copy; 2023 Constantin Emanuel and Ganea Andreea-Maria</span>
 		</div>
 		<div class="nav-item">
 			<a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact us</a>
