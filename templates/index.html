@@ -16,9 +16,10 @@
 					</button>
 					<div class="collapse" id="home-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark rounded">Python</a></li>
-							<li><a href="#" class="link-dark rounded">JavaScript</a></li>
-							<li><a href="#" class="link-dark rounded">C++</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='python') }}" class="link-dark rounded">Python</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='cpp') }}" class="link-dark rounded">C++</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='rust') }}" class="link-dark rounded">Rust</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='javascript') }}" class="link-dark rounded">JavaScript</a></li>
 						</ul>
 					</div>
 				</li>
@@ -27,12 +28,14 @@
 						Subjects
 					</button>
 					<div class="collapse" id="dashboard-collapse">
+
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark rounded">Web Development</a></li>
-							<li><a href="#" class="link-dark rounded">Data Science</a></li>
-							<li><a href="#" class="link-dark rounded">Cybersecurity</a></li>
-							<li><a href="#" class="link-dark rounded">Machine Learning</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='web-development') }}" class="link-dark rounded">Web Development</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='data-science') }}" class="link-dark rounded">Data Science</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='cybersecurity') }}" class="link-dark rounded">Cybersecurity</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='machine-learning') }}" class="link-dark rounded">Machine Learning</a></li>
 						</ul>
+
 					</div>
 				</li>
 			</ul>
@@ -49,7 +52,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="row">
-								<div class="col-sm-6">Last updated {{ course.last_updated }}</div>
+								<div class="col-sm-6">{{ course.last_updated }}</div>
 								{% if course.price %}
 									<div class="col-sm-6 text-end">Price:
 										<b>{{ course.price }}€</b></div>
@@ -58,6 +61,11 @@
 										<b>Free</b></div>
 								{% endif %}
 							</div>
+
+							<button onclick="window.location.href='{{ url_for( 'course', id=course.id) }}';"
+									class="btn btn-success btn-block btn-sm gradient-custom-4 text-body">
+								Read more
+							</button>
 						</div>
 					</div>
 				</div>
@@ -65,7 +73,25 @@
 		</div>
 	</div>
 
-
-
+	<!-- Pagination links -->
+	<div class="container d-flex justify-content-center mt-4">
+		<div class="pagination">
+			{% if pagination.has_prev %}
+				<a class="btn btn-primary" href="{{ url_for('home', page=pagination.prev_page) }}">Previous</a>
+			{% endif %}
+			{% for page in range(pagination.page - 2, pagination.page + 3) %}
+				{% if page >= 1 and page <= pagination.pages %}
+					{% if pagination.page == page %}
+						<a class="btn btn-primary active" href="{{ url_for('home', page=page) }}">{{ page }}</a>
+					{% else %}
+						<a class="btn btn-primary" href="{{ url_for('home', page=page) }}">{{ page }}</a>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+			{% if pagination.has_next %}
+				<a class="btn btn-primary" href="{{ url_for('home', page=pagination.next_page) }}">Next</a>
+			{% endif %}
+		</div>
+	</div>
 
 {% endblock %}

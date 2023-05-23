@@ -29,6 +29,7 @@ class AuthGrade(Enum):
     INSTRUCTOR = auto()
     ADMIN = auto()
 
+
 # Debug mode
 DEBUG = True
 
@@ -241,7 +242,7 @@ def create():
                         category='web',
                         sub_category='python',
                         price=int(request.values['price'])
-                    )
+                        )
         db.session.add(course)
         db.session.commit()
 
@@ -293,21 +294,59 @@ def register():
     return render_template('register.html', content=content)
 
 
+from flask_paginate import Pagination, get_page_args
+import math
+
+
+def get_pagination(courses):
+    # Get the page from the query string or default to the first page
+    # Set the number of items per page
+    per_page = 6
+
+    # Get the current page from the query string
+    page = request.args.get('page', 1, type=int)
+
+    # Calculate the total number of pages
+    total_pages = math.ceil(len(courses) / per_page)
+
+    # Get the courses for the current page
+    courses_subset = courses[(page - 1) * per_page: page * per_page]
+    return courses_subset, {'page': page, 'pages': total_pages}
+
+
+@app.route('/get-courses-sub-category/<sub_category>')
+def get_courses_by_sub_category(sub_category):
+    courses = Course.query.filter_by(sub_category=sub_category).all()
+    courses_subset, pagination = get_pagination(courses)
+    return render_template('dashboard.html', courses=courses_subset, pagination=pagination)
+
+
+@app.route('/get-courses-category/<category>')
+def get_courses_by_category(category):
+    courses = Course.query.filter_by(category=category).all()
+    courses_subset, pagination = get_pagination(courses)
+    return render_template('dashboard.html', courses=courses_subset, pagination=pagination)
+
+
 @app.route('/')
 def home():
+    courses_subset, pagination = get_pagination(get_all_courses())
     if is_logged():
-        return render_template('dashboard.html', courses=get_all_courses())
+        return render_template('dashboard.html', courses=courses_subset, pagination=pagination)
     else:
-        return render_template('index.html', courses=get_all_courses())
+        return render_template('index.html', courses=courses_subset, pagination=pagination)
+
 
 @app.route('/manage_courses')
 def manage_courses():
     if is_logged():
         return render_template('manage_courses.html', courses=get_courses_by_id(current_user.id))
 
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
 
 @app.route("/course/<int:id>")
 def course(id: int):

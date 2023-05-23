@@ -37,17 +37,6 @@
 				</li>
 			</ul>
 		</div>
-		{#		<div class="content">#}
-		{#			<p>Explore more on popular languages</p>#}
-		{#			<div class="card" style="width: 18rem;">#}
-		{#				<div class="card-body">#}
-		{#					<h5 class="card-title">Javascript</h5>#}
-		{#					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, veritatis?</p>#}
-		{#					<a href="#" class="card-link">Learn more...</a>#}
-		{#				</div>#}
-		{#			</div>#}
-		{#			<p>Explore more on popular languages</p>#}
-		{#		</div>#}
 
 		<div class="card-container">
 			<div class="col">
@@ -57,11 +46,13 @@
 						<h5 class="card-title">{{ course.title }}</h5>
 						<p class="card-text">{{ course.description | safe }}</p>
 					</div>
+				{% if course.video_path %}
 					<div style="margin: 10px auto;">
 						<video autoplay="autoplay" controls="controls" preload="preload">
 							<source src="{{ url_for('display_attachment', file_name=course.video_path) }}" type="video/mp4"></source>
 						</video>
 					</div>
+				{% endif %}
 
 					<div class="card-footer">
 						<div class="row">
