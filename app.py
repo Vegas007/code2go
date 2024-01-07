@@ -354,6 +354,22 @@ def course(id: int):
     return render_template('course.html', course=course)
 
 
+@app.route("/course/update/<int:id>") # UPDATE course SET price = price * 0.5 WHERE price > 0.0;
+def course_update(id: int):
+    course = Course.query.filter_by(id=id).first()
+
+    if course.price > 0.0:
+        course.price *= 0.5
+        db.session.commit()  # Save the changes to the database
+
+    return render_template('course.html', course=course)
+
+@app.route("/courses/latest") # SELECT * FROM course ORDER BY last_updated DESC LIMIT 5;
+def latest_courses():
+    courses = Course.query.order_by(Course.last_updated.desc()).limit(5).all()
+    return render_template('latest_courses.html', courses=courses)
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')

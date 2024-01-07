@@ -3,6 +3,7 @@
 {% block head %}
 	<link rel="stylesheet" href="../static/index.css">
 	<link rel="stylesheet" href="../static/dashboard.css">
+	<link rel="stylesheet" href="../static/course.css">
 	<title>{{ course.title }}</title>
 {% endblock %}
 
@@ -16,9 +17,10 @@
 					</button>
 					<div class="collapse" id="home-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark rounded">Python</a></li>
-							<li><a href="#" class="link-dark rounded">JavaScript</a></li>
-							<li><a href="#" class="link-dark rounded">C++</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='python') }}" class="link-dark rounded">Python</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='cpp') }}" class="link-dark rounded">C++</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='rust') }}" class="link-dark rounded">Rust</a></li>
+							<li><a href="{{ url_for('get_courses_by_category', category='javascript') }}" class="link-dark rounded">JavaScript</a></li>
 						</ul>
 					</div>
 				</li>
@@ -27,12 +29,14 @@
 						Subjects
 					</button>
 					<div class="collapse" id="dashboard-collapse">
+
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark rounded">Web Development</a></li>
-							<li><a href="#" class="link-dark rounded">Data Science</a></li>
-							<li><a href="#" class="link-dark rounded">Cybersecurity</a></li>
-							<li><a href="#" class="link-dark rounded">Machine Learning</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='web-development') }}" class="link-dark rounded">Web Development</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='data-science') }}" class="link-dark rounded">Data Science</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='cybersecurity') }}" class="link-dark rounded">Cybersecurity</a></li>
+							<li><a href="{{ url_for('get_courses_by_sub_category', sub_category='machine-learning') }}" class="link-dark rounded">Machine Learning</a></li>
 						</ul>
+
 					</div>
 				</li>
 			</ul>

@@ -4,16 +4,15 @@
 	<title>Login</title>
 	<link rel="stylesheet" href="../static/login.css">
 {% endblock %}
-
 {% block content %}
 	<section class="vh-100 bg-image">
-		<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+		<div class="mask d-flex align-items-center h-100">
 			<div class="container h-100">
 				<div class="row d-flex justify-content-center align-items-center h-100">
 					<div class="col-12 col-md-9 col-lg-7 col-xl-6">
 						<div class="card">
 							<div class="card-body p-5">
-								<h2 class="text-uppercase text-center mb-5">Authentication</h2>
+								<h2 class="text-uppercase text-center mb-5">Log in</h2>
 								<form action="{{ url_for('login') }}" method="post">
 									<div class="form-outline mb-4">
 										<input type="email" name="email" class="form-control form-control-lg" required/>

@@ -3,16 +3,7 @@
 {% block head %}
 	<title>Contact us</title>
 	<link rel="stylesheet" href="../static/contact.css">
-	<!-- Add Bootstrap CSS link here -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-	<style>
-		.contact-container {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-		}
-	</style>
 {% endblock %}
 
 {% block content %}
@@ -20,7 +11,7 @@
 		<div class="container">
 			<h1 class="text-center">Contact</h1>
 			<p class="text-center">Please fill out the form below to get in touch with us:</p>
-			<form action="/submit_contact_form" method="POST">
+			<form action="/submit_contact_form" method="POST" class="form-container">
 				<div class="form-group">
 					<label for="name">Name:</label>
 					<input type="text" class="form-control" id="name" name="name" required>
@@ -33,7 +24,7 @@
 					<label for="message">Message:</label>
 					<textarea class="form-control" id="message" name="message" rows="5" required></textarea>
 				</div>
-				<button type="submit" class="btn btn-primary btn-block">Submit</button>
+				<button type="submit" class="btn btn-primary btn-block submit-button">Submit</button>
 			</form>
 		</div>
 	</div>

@@ -1,0 +1,27 @@
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    border: 1px solid #868686;
+    border-radius: 5px;
+    height: 60vh;
+    width: 50vw !important;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3rem;
+    /*!*justify-content: center;*!*/
+    /*align-items: center;*/
+    /*width: 90% !important*/
+}
+
+.submit-button {
+    align-self: center;
+    margin-top: 30px;
+    width: 10rem !important;
+}

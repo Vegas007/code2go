@@ -17,7 +17,7 @@
 								<h2 class="text-uppercase text-center mb-5">Create a course</h2>
 								<form action="{{ url_for('create') }}" method="post" enctype="multipart/form-data">
 									<div class="form-outline mb-4">
-										<label><b>How about a working title?</b></label>
+										<label><b>Course Title</b></label>
 										<input type="text" name="title" placeholder="Title" class="form-control form-control-lg" required/>
 									</div>
 									<b>Course content</b>
@@ -64,7 +64,7 @@
 
 									<div class="form-outline mb-4">
 										<label><b>What's the price?</b></label>
-										<input type="text" name="price" placeholder="0" value='0' class="form-control form-control-lg" required/>
+										<input type="number" name="price" placeholder="0" value='0' min="0" max="1000" class="form-control form-control-lg" required/>
 									</div>
 
 									<div>

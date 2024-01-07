@@ -25,7 +25,6 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
-
 				{% if not current_user.is_authenticated %}
 					<li class="nav-item">
 						<a class="nav-link active" aria-current="page" href="{{ url_for('login') }}">Log in</a>
@@ -33,6 +32,7 @@
 					<li class="nav-item">
 						<a class="nav-link active" href="{{ url_for('register') }}">Sign up</a>
 					</li>
+
 				{% else %}
 					<li class="nav-item">
 						<a class="nav-link active" href="{{ url_for('logout') }}">Log out</a>
@@ -47,9 +47,7 @@
 							<a class="nav-link active" href="{{ url_for('create') }}">Create course</a>
 						</li>
 					{% endif %}
-
 				{% endif %}
-
 			</ul>
 		</div>
 	</div>
@@ -60,7 +58,7 @@
 {#<div class="footer-container">#}
 	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
 		<div class="col-md-4 d-flex align-items-center">
-			<span class="mb-3 mb-md-0 text-muted">&copy; 2023 Constantin Emanuel and Ganea Andreea-Maria</span>
+			<span class="mb-3 mb-md-0 text-muted">&copy; 2024 Constantin Emanuel and Ganea Andreea-Maria</span>
 		</div>
 		<div class="nav-item">
 			<a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact us</a>
@@ -70,13 +68,13 @@
 		</div>
 		<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
 			<li class="nav-item">
-				<a class="nav-link text-info" aria-current="page" href="#"><i class="bi bi-facebook"></i></a>
+				<a class="nav-link text-info" aria-current="page" href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-danger" aria-current="page" href="#"><i class="bi bi-instagram"></i></a>
+				<a class="nav-link text-danger" aria-current="page" href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-primary" aria-current="page" href="#"><i class="bi bi-twitter"></i></a>
+				<a class="nav-link text-info" aria-current="page" href="https://twitter.com/"><i class="bi bi-twitter-x"></i></a>
 			</li>
 		</ul>
 	</footer>
